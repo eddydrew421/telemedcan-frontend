@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/protectedRoute";
 import RegisterForm from "./components/registerForm";
 //css
 import "react-toastify/dist/ReactToastify.css";
-import "./App.css";
+import "./index.scss";
 
 class App extends Component {
   state = {};
@@ -35,7 +35,7 @@ class App extends Component {
             <Route path="/register" component={RegisterForm} />
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
-            {/* <ProtectedRoute *use protedted route when login is in place*/}
+            {/* <ProtectedRoute *use protected route when login is in place*/}
             <Route
               path="/dashboard"
               //using render property instead of component property is the only way
@@ -46,8 +46,10 @@ class App extends Component {
             <Redirect from="/" exact to="/dashboard" />
             <Redirect to="/not-found" />
           </Switch>
+          <LoginForm />
         </main>
       </React.Fragment>
+
     );
   }
 }

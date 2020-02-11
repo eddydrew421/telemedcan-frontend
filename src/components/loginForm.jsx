@@ -40,7 +40,7 @@ class LoginForm extends Form {
   render() {
     if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div>
+      <div style={{ marginTop: '2rem' }} className="">
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}

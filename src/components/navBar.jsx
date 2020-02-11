@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import Logo from "./Logo/Logo";
 
 const NavBar = ({ user }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#9d408c' }}>
       <Link className="navbar-brand" to="/">
-        Machete
       </Link>
+      <Logo />
       <button
         className="navbar-toggler"
         type="button"

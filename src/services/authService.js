@@ -20,16 +20,17 @@ export function loginWithJwt(jwt) {
 }
 
 export async function loginGraphQL(email, password) {
-  const query = `query{ 
-                  login(username: $username, password: $password)
-                }`;
-  const queryObj = JSON.stringify({ query, variables: { email, password } });
-  console.log(`queryobj: ${queryObj}`);
+  const query = {
+    query: `query{
+                  login(username: "${email}", password:"${password}")
+                }`,
+    variables: null
+  };
+  const res = await httpService.post(apiEndGrapghql, JSON.stringify(query), {
+    headers: { "Content-Type": "application/json" }
+  });
 
-  const { data: jwt } = await httpService.post(apiEndGrapghql, queryObj);
-
-  console.log(`post login received data: ${jwt}`);
-  localStorage.setItem(tokenKey, jwt);
+  localStorage.setItem(tokenKey, res.data.data.login);
 }
 
 export function logout() {

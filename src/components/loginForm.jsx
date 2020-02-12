@@ -20,27 +20,40 @@ class LoginForm extends Form {
   };
 
   doSubmit = async () => {
+    let currentError;
     try {
       const { data } = this.state;
-      //await auth.login(data.username, data.password);
       await auth.loginGraphQL(data.username, data.password);
-      const { state } = this.props.location;
+
+      if (auth.getCurrentUser() === null)
+        currentError = "login failed, please try again";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400)
+        currentError = ex.response.data;
+    } finally {
+      if (currentError) {
+        const errors = { ...this.state.errors };
+        errors.username = currentError;
+        console.log(`login error: ${currentError}`);
+        this.setState({ errors });
+        return;
+      }
+      //TODO fix this
+      let state;
+      const { location } = this.props;
+      if (location) state = location.state;
+      //fix to use below
+      // const { state } = this.props.location;
       //this.props.history.push("/");//this will not reload the navbar after login
       //window.location will realod the app after login and re-render the user in the navbar
-      window.location = state ? state.from.pathname : "/";
-    } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        const errors = { ...this.state.errors };
-        errors.username = ex.response.data;
-        this.setState({ errors });
-      }
+      window.location = state ? state.from.pathname : "/dashboard";
     }
   };
 
   render() {
     if (auth.getCurrentUser()) return <Redirect to="/" />;
     return (
-      <div style={{ marginTop: '2rem' }} className="">
+      <div>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
